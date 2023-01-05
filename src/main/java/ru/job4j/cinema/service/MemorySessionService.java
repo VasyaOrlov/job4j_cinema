@@ -9,7 +9,7 @@ import java.util.Optional;
 
 /**
  * MemorySessionService - класс реализующий интерфейс SessionService.
- * Класс реализует бизнесс логику работы приложения.
+ * Класс реализует бизнесс логику работы фильмов в приложении.
  */
 @Service
 @ThreadSafe
@@ -36,6 +36,6 @@ public class MemorySessionService implements SessionService {
      */
     @Override
     public Optional<Session> findById(int id) {
-        return Optional.empty();
+        return sessionRepository.findById(id);
     }
 }

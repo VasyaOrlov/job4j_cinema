@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * SessionService - интерфейс описывает логику работы
+ * SessionService - интерфейс описывает логику работы фильмов
  */
 public interface SessionService {
 
