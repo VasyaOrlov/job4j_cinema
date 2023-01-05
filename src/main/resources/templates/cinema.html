@@ -19,13 +19,17 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Имя</th>
+                        <th scope="col">Название фильма</th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="movie:${movies}">
                         <td th:text="${movie.id}"></td>
                         <td th:text="${movie.name}"></td>
+                        <td>
+                            <a th:href="@{/formSelectRow/{id}(id=${movie.id})}">Билеты</a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

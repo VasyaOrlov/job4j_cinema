@@ -8,7 +8,7 @@ import ru.job4j.cinema.service.SessionService;
 
 /**
  * SessionController - класс контроллер
- *
+ * Отвеччает за работу к саенсами в кинотеатре
  */
 @Controller
 @ThreadSafe

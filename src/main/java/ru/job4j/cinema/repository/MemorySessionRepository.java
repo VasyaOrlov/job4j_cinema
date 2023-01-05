@@ -18,9 +18,9 @@ public class MemorySessionRepository implements SessionRepository {
     private final Map<Integer, Session> sessions = new ConcurrentHashMap<>();
 
     private MemorySessionRepository() {
-        sessions.put(1, new Session(1, "Ужасы на улице"));
-        sessions.put(2, new Session(2, "Комедия в офисе"));
-        sessions.put(3, new Session(3, "Фантастика во дворе"));
+        sessions.put(1, new Session(1, "Ужасы на улице", 1));
+        sessions.put(2, new Session(2, "Комедия в офисе", 2));
+        sessions.put(3, new Session(3, "Фантастика во дворе", 3));
     }
 
     /**
