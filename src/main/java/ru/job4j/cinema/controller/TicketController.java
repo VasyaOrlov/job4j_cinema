@@ -5,11 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.cinema.model.Hall;
 import ru.job4j.cinema.model.Session;
-import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.service.HallService;
 import ru.job4j.cinema.service.SessionService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * TicketController - класс контроллер.
@@ -28,13 +31,39 @@ public class TicketController {
     }
 
     @GetMapping("/formSelectRow/{id}")
-    public String selectRow(@PathVariable("id") int id, Model model) {
-        model.addAttribute("ticket", new Ticket(0, 0, 0, id));
-        model.addAttribute("movieId", id);
+    public String selectRow(@PathVariable("id") int id, Model model,
+                            HttpSession httpSession) {
+        httpSession.setAttribute("movieId", id);
         model.addAttribute("rows",
                 hallService.findById(sessionService.findById(id)
                                 .orElse(new Session()).getHallId())
                         .orElse(new Hall()).getRows());
         return "selectRow";
+    }
+
+    @PostMapping("/addRow")
+    public String addRow(HttpSession httpSession) {
+
+        return "redirect:/formSelectCell";
+    }
+
+    @GetMapping("/formSelectCell")
+    public String selectCell(Model model, HttpSession httpSession) {
+        model.addAttribute("cells",
+                hallService.findById(sessionService.findById((int) httpSession.getAttribute("movieId"))
+                                .orElse(new Session()).getHallId())
+                        .orElse(new Hall()).getCells());
+        return "selectCell";
+    }
+
+    @PostMapping("/addCell")
+    public String addCell(HttpSession httpSession) {
+
+        return "createdTicket";
+    }
+
+    @GetMapping("/createdTicket")
+    public String createdTicket() {
+        return "";
     }
 }
