@@ -4,15 +4,12 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import ru.job4j.cinema.model.Hall;
 import ru.job4j.cinema.model.Session;
-import ru.job4j.cinema.service.HallService;
-import ru.job4j.cinema.service.SessionService;
+import ru.job4j.cinema.model.Ticket;
+import ru.job4j.cinema.service.TicketService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 /**
  * TicketController - класс контроллер.
@@ -22,48 +19,31 @@ import javax.servlet.http.HttpSession;
 @ThreadSafe
 public class TicketController {
 
-    private final SessionService sessionService;
-    private final HallService hallService;
+    private final TicketService ticketService;
 
-    public TicketController(SessionService sessionService, HallService hallService) {
-        this.sessionService = sessionService;
-        this.hallService = hallService;
+    public TicketController(TicketService ticketService) {
+        this.ticketService = ticketService;
     }
 
-    @GetMapping("/formSelectRow/{id}")
-    public String selectRow(@PathVariable("id") int id, Model model,
-                            HttpSession httpSession) {
-        httpSession.setAttribute("movieId", id);
-        model.addAttribute("rows",
-                hallService.findById(sessionService.findById(id)
-                                .orElse(new Session()).getHallId())
-                        .orElse(new Hall()).getRows());
-        return "selectRow";
-    }
-
-    @PostMapping("/addRow")
-    public String addRow(HttpSession httpSession) {
-
-        return "redirect:/formSelectCell";
-    }
-
-    @GetMapping("/formSelectCell")
-    public String selectCell(Model model, HttpSession httpSession) {
-        model.addAttribute("cells",
-                hallService.findById(sessionService.findById((int) httpSession.getAttribute("movieId"))
-                                .orElse(new Session()).getHallId())
-                        .orElse(new Hall()).getCells());
-        return "selectCell";
-    }
-
-    @PostMapping("/addCell")
-    public String addCell(HttpSession httpSession) {
-
-        return "createdTicket";
-    }
-
+    /**
+     * метод сохраняет билет в базу данных и сообщает о результате операции
+     * @param model - модель данных
+     * @param httpSession - объект связанный с работой пользователя
+     * @return - возвращает вид с результатом операции
+     */
     @GetMapping("/createdTicket")
-    public String createdTicket() {
-        return "";
+    public String createdTicket(Model model, HttpSession httpSession) {
+        int row = (int) httpSession.getAttribute("row");
+        int cell = (int) httpSession.getAttribute("cell");
+        int idSession = ((Session) httpSession.getAttribute("movie")).getId();
+        Ticket ticket = new Ticket(0, row, cell, idSession);
+        Optional<Ticket> rsl = ticketService.add(ticket);
+        if (rsl.isEmpty()) {
+            return "ticketFail";
+        }
+        model.addAttribute("row", row);
+        model.addAttribute("cell", cell);
+        model.addAttribute("movie", httpSession.getAttribute("movie"));
+        return "ticketSuccess";
     }
 }

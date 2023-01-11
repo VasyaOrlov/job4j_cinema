@@ -17,8 +17,6 @@ public class Hall {
      */
     private List<Integer> cells;
 
-    private List<List<Integer>> places;
-
     public Hall() {
     }
 
@@ -26,7 +24,6 @@ public class Hall {
         this.id = id;
         this.rows = unitRows(rows);
         this.cells = unitCells(cells);
-        this.places = unitPlaces(rows, cells);
     }
 
     private List<Integer> unitRows(int rows) {
@@ -45,18 +42,6 @@ public class Hall {
         return rsl;
     }
 
-    private List<List<Integer>> unitPlaces(int rows, int cells) {
-        var rsl = new ArrayList<List<Integer>>();
-        for (int i = 1; i <= rows; i++) {
-            var temp = new ArrayList<Integer>();
-            for (int j = 1; j <= cells; j++) {
-                temp.add(j);
-            }
-            rsl.add(temp);
-        }
-        return rsl;
-    }
-
     public int getId() {
         return id;
     }
@@ -71,13 +56,5 @@ public class Hall {
 
     public List<Integer> getCells() {
         return cells;
-    }
-
-    public List<List<Integer>> getPlaces() {
-        return places;
-    }
-
-    public void setPlaces(List<List<Integer>> places) {
-        this.places = places;
     }
 }

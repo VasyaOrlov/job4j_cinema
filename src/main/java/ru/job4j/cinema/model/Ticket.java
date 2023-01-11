@@ -8,23 +8,17 @@ import java.util.Objects;
 public class Ticket {
     private int id;
     private int row;
-    private int place;
+    private int cell;
     private int sessionId;
 
     public Ticket() {
     }
 
-    public Ticket(int id, int row, int place, int sessionId) {
+    public Ticket(int id, int row, int cell, int sessionId) {
         this.id = id;
         this.row = row;
-        this.place = place;
+        this.cell = cell;
         this.sessionId = sessionId;
-    }
-
-    public Ticket(int id, int row, int place) {
-        this.id = id;
-        this.row = row;
-        this.place = place;
     }
 
     public int getId() {
@@ -43,12 +37,12 @@ public class Ticket {
         this.row = row;
     }
 
-    public int getPlace() {
-        return place;
+    public int getCell() {
+        return cell;
     }
 
-    public void setPlace(int place) {
-        this.place = place;
+    public void setCell(int cell) {
+        this.cell = cell;
     }
 
     public int getSessionId() {

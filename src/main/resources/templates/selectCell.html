@@ -17,7 +17,7 @@
     <div class="row">
         <form th:action="@{/addCell}" method="POST">
             <label>выбор места</label>
-            <select>
+            <select name="cell">
                 <option th:each="cell:${cells}" th:value="${cell}" th:text="${cell}"></option>
             </select>
             <div class="row">

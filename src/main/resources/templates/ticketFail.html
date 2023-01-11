@@ -13,23 +13,6 @@
 
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <form th:action="@{/addRow}" method="POST">
-            <label>выбор ряда</label>
-            <select name="row">
-                <option th:each="row:${rows}" th:value="${row}" th:text="${row}"></option>
-            </select>
-            <div class="row">
-                <div class="col-6">
-                    <a class="btn btn-danger w-100" th:href="@{/cinema}">Отмена</a>
-                </div>
-                <div class="col-6">
-                    <button class="btn btn-primary w-120" type="submit">Далее</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
+<h3>Данное место уже куплено.</h3>
 </body>
 </html>
