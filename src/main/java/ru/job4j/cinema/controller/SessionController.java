@@ -4,6 +4,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.cinema.model.Hall;
@@ -97,5 +98,19 @@ public class SessionController {
     public String addCell(HttpServletRequest request, HttpSession httpSession) {
         httpSession.setAttribute("cell", Integer.parseInt(request.getParameter("cell")));
         return "redirect:/createdTicket";
+    }
+
+    @GetMapping("/addSession")
+    public String addSession(Model model, HttpSession httpSession) {
+        getUser(model, httpSession);
+        model.addAttribute("halls", hallService.findAll());
+        System.out.println(hallService.findAll());
+        return "addSession";
+    }
+
+    @PostMapping("/createSession")
+    public String createSession(@ModelAttribute Session session) {
+        sessionService.add(session);
+        return "redirect:/cinema";
     }
 }

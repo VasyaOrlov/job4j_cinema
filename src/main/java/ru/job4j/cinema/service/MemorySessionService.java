@@ -38,4 +38,9 @@ public class MemorySessionService implements SessionService {
     public Optional<Session> findById(int id) {
         return sessionRepository.findById(id);
     }
+
+    @Override
+    public Optional<Session> add(Session session) {
+        return sessionRepository.add(session);
+    }
 }

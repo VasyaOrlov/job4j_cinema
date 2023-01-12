@@ -12,4 +12,5 @@ public interface SessionService {
     List<Session> findAll();
 
     Optional<Session> findById(int id);
+    Optional<Session> add(Session session);
 }

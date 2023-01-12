@@ -26,7 +26,7 @@ public class MemoryHallService implements HallService {
      */
     @Override
     public List<Hall> findAll() {
-        return null;
+        return hallRepository.findAll();
     }
 
     /**

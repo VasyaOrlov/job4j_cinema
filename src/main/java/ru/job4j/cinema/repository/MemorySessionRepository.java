@@ -7,15 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * MemorySessionRepository - реализует интерфейс SessionRepository.
  * Описывает модель хранилища списка фильмов
  */
-@Repository
-@ThreadSafe
 public class MemorySessionRepository implements SessionRepository {
     private final Map<Integer, Session> sessions = new ConcurrentHashMap<>();
+    private final AtomicInteger size = new AtomicInteger(3);
 
     private MemorySessionRepository() {
         sessions.put(1, new Session(1, "Ужасы на улице", 1));
@@ -38,5 +38,17 @@ public class MemorySessionRepository implements SessionRepository {
     @Override
     public Optional<Session> findById(int id) {
         return Optional.ofNullable(sessions.get(id));
+    }
+
+    /**
+     * @param session - сеанс на фильм
+     * @return - Optional с добавленным сеансом
+     */
+    @Override
+    public Optional<Session> add(Session session) {
+        int id = size.incrementAndGet();
+        session.setId(id);
+        sessions.putIfAbsent(session.getId(), session);
+        return Optional.of(session);
     }
 }

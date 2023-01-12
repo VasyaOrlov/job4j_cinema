@@ -11,4 +11,5 @@ public interface SessionRepository {
     List<Session> findAll();
 
     Optional<Session> findById(int id);
+    Optional<Session> add(Session session);
 }

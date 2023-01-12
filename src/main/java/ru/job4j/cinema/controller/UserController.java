@@ -71,12 +71,27 @@ public class UserController {
         return "userSuccess";
     }
 
+    /**
+     * метод возвращает вид страницы авторизации
+     * @param model - модель данных
+     * @param httpSession - объект связанный с работой пользователя
+     * @return - страницу авторизации
+     */
     @GetMapping("/login")
     public String login(Model model, HttpSession httpSession) {
         getUser(model, httpSession);
         return "login";
     }
 
+    /**
+     * метод записывает данные введеные на странице авторизации
+     * на их основе ищет пользователя в базе
+     * @param user - пользователь на основе введеных данных
+     * @param model - модель данных
+     * @param httpSession - объект связанный с работой пользователя
+     * @return при наличии пользователя в базе записывает в httpSession пользователя
+     * и возвращает вид с выбором фильмов или выдает сообщение о неверных данных
+     */
     @PostMapping("/login")
     public String entry(@ModelAttribute User user, Model model, HttpSession httpSession) {
         Optional<User> temp = userService.findUser(user.getEmail(), user.getPassword());
@@ -88,6 +103,11 @@ public class UserController {
         return "redirect:/cinema";
     }
 
+    /**
+     * метод завершает работу объекта httpSession
+     * @param httpSession - объект связанный с работой пользователя
+     * @return - отправляет по url /cinema
+     */
     @GetMapping("/logout")
     public String logout(HttpSession httpSession) {
         httpSession.invalidate();

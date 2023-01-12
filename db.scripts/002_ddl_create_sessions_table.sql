@@ -1,0 +1,5 @@
+CREATE TABLE sessions (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR NOT NULL,
+  hall_id INT NOT NULL
+);

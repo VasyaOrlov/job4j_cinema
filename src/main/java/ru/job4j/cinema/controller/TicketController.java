@@ -46,12 +46,24 @@ public class TicketController {
         return "redirect:/ticketSuccess";
     }
 
+    /**
+     * метод возвращает вид с ошибкой покупки билета
+     * @param model - модель данных
+     * @param httpSession - объект связанный с работой пользователя
+     * @return - вид с ошибкой покупки билета
+     */
     @GetMapping("/ticketFail")
     public String ticketFail(Model model, HttpSession httpSession) {
         getUser(model, httpSession);
         return "ticketFail";
     }
 
+    /**
+     * метод возвращает вид успешной покупки билета
+     * @param model - модель данных
+     * @param httpSession - объект связанный с работой пользователя
+     * @return - вид покупки билета
+     */
     @GetMapping("/ticketSuccess")
     public String ticketSuccess(Model model, HttpSession httpSession) {
         model.addAttribute("row", httpSession.getAttribute("row"));
