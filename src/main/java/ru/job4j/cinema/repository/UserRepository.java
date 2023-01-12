@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface UserRepository {
 
     Optional<User> add(User user);
+    Optional<User> findUser(String email, String password);
 }

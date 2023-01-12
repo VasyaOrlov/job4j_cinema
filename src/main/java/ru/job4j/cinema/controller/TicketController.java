@@ -6,10 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.model.Ticket;
+import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.service.TicketService;
-
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
+import static ru.job4j.cinema.util.GetUser.getUser;
 
 /**
  * TicketController - класс контроллер.
@@ -36,14 +37,27 @@ public class TicketController {
         int row = (int) httpSession.getAttribute("row");
         int cell = (int) httpSession.getAttribute("cell");
         int idSession = ((Session) httpSession.getAttribute("movie")).getId();
-        Ticket ticket = new Ticket(0, row, cell, idSession);
+        int idUser = ((User) httpSession.getAttribute("user")).getId();
+        Ticket ticket = new Ticket(0, row, cell, idSession, idUser);
         Optional<Ticket> rsl = ticketService.add(ticket);
         if (rsl.isEmpty()) {
-            return "ticketFail";
+            return "redirect:/ticketFail";
         }
-        model.addAttribute("row", row);
-        model.addAttribute("cell", cell);
+        return "redirect:/ticketSuccess";
+    }
+
+    @GetMapping("/ticketFail")
+    public String ticketFail(Model model, HttpSession httpSession) {
+        getUser(model, httpSession);
+        return "ticketFail";
+    }
+
+    @GetMapping("/ticketSuccess")
+    public String ticketSuccess(Model model, HttpSession httpSession) {
+        model.addAttribute("row", httpSession.getAttribute("row"));
+        model.addAttribute("cell", httpSession.getAttribute("cell"));
         model.addAttribute("movie", httpSession.getAttribute("movie"));
+        getUser(model, httpSession);
         return "ticketSuccess";
     }
 }

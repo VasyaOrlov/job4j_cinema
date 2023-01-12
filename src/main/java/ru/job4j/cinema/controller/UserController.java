@@ -2,12 +2,17 @@ package ru.job4j.cinema.controller;
 
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.service.UserService;
+
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
+
+import static ru.job4j.cinema.util.GetUser.getUser;
 
 /**
  * UserController - класс контроллер
@@ -27,7 +32,8 @@ public class UserController {
      * @return вид с формой регистрации
      */
     @GetMapping("/registration")
-    public String registration() {
+    public String registration(Model model, HttpSession httpSession) {
+        getUser(model, httpSession);
         return "registration";
     }
 
@@ -50,7 +56,8 @@ public class UserController {
      * @return - вид с ошибкой регистрации пользователя
      */
     @GetMapping("/userFail")
-    public String userFail() {
+    public String userFail(Model model, HttpSession httpSession) {
+        getUser(model, httpSession);
         return "userFail";
     }
 
@@ -59,7 +66,31 @@ public class UserController {
      * @return - вид успешной регистрации нового пользователя
      */
     @GetMapping("/userSuccess")
-    public String userSuccess() {
+    public String userSuccess(Model model, HttpSession httpSession) {
+        getUser(model, httpSession);
         return "userSuccess";
+    }
+
+    @GetMapping("/login")
+    public String login(Model model, HttpSession httpSession) {
+        getUser(model, httpSession);
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String entry(@ModelAttribute User user, Model model, HttpSession httpSession) {
+        Optional<User> temp = userService.findUser(user.getEmail(), user.getPassword());
+        if (temp.isEmpty()) {
+            model.addAttribute("error", "Почта или пароль введены неверно!");
+            return "login";
+        }
+        httpSession.setAttribute("user", temp.get());
+        return "redirect:/cinema";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession httpSession) {
+        httpSession.invalidate();
+        return "redirect:/cinema";
     }
 }

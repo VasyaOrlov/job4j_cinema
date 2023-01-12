@@ -21,7 +21,7 @@ import java.util.Optional;
 public class DBTicketRepository implements TicketRepository {
 
     private static final String ADD = "insert into ticket (session_id, row, "
-            + "cell) values (?, ?, ?)";
+            + "cell, user_id) values (?, ?, ?, ?)";
     private static final Logger LOG = LoggerFactory.getLogger(DBTicketRepository.class.getName());
     private final BasicDataSource pool;
 
@@ -42,6 +42,7 @@ public class DBTicketRepository implements TicketRepository {
             ps.setInt(1, ticket.getSessionId());
             ps.setInt(2, ticket.getRow());
             ps.setInt(3, ticket.getCell());
+            ps.setInt(4, ticket.getUserId());
             ps.execute();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {

@@ -12,6 +12,7 @@ import ru.job4j.cinema.service.HallService;
 import ru.job4j.cinema.service.SessionService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import static ru.job4j.cinema.util.GetUser.getUser;
 
 /**
  * SessionController - класс контроллер
@@ -34,8 +35,9 @@ public class SessionController {
      * @return - вид всех сеансов
      */
     @GetMapping("/cinema")
-    public String cinema(Model model) {
+    public String cinema(Model model, HttpSession httpSession) {
         model.addAttribute("movies", sessionService.findAll());
+        getUser(model, httpSession);
         return "cinema";
     }
 
@@ -54,6 +56,7 @@ public class SessionController {
                 hallService.findById(sessionService.findById(id)
                                 .orElse(new Session()).getHallId())
                         .orElse(new Hall()).getRows());
+        getUser(model, httpSession);
         return "selectRow";
     }
 
@@ -80,6 +83,7 @@ public class SessionController {
         model.addAttribute("cells",
                 hallService.findById(((Session) httpSession.getAttribute("movie")).getHallId())
                         .orElse(new Hall()).getCells());
+        getUser(model, httpSession);
         return "selectCell";
     }
 

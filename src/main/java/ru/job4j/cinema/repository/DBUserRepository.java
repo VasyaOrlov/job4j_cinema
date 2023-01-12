@@ -20,6 +20,8 @@ public class DBUserRepository implements UserRepository {
 
     private static final String ADD = "insert into users (username, password, "
             + "email) values (?, ?, ?)";
+    private static final String FIND_USER = "SELECT * FROM users "
+            + "WHERE email = ? and password = ?";
     private static final Logger LOG = LoggerFactory.getLogger(DBUserRepository.class.getName());
     private final BasicDataSource pool;
 
@@ -48,6 +50,34 @@ public class DBUserRepository implements UserRepository {
             }
         } catch (SQLException e) {
             LOG.error("Ошибка соединения при добавлении пользователя", e);
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * метод ищет пользователя в базе данных по почте и паролю
+     * @param email - почта
+     * @param password - пароль
+     * @return - возвращает Optional с пользователем или null
+     */
+    @Override
+    public Optional<User> findUser(String email, String password) {
+        try (Connection cn = pool.getConnection();
+        PreparedStatement ps = cn.prepareStatement(FIND_USER)) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(new User(
+                            rs.getInt("id"),
+                            rs.getString("email"),
+                            rs.getString("password"),
+                            rs.getString("username")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error("Ошибка соединения при поиске пользователя", e);
         }
         return Optional.empty();
     }

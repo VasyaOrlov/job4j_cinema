@@ -30,4 +30,15 @@ public class DBUserService implements UserService {
     public Optional<User> add(User user) {
         return userRepository.add(user);
     }
+
+    /**
+     * метод ищет пользователя в базе данных по почте и паролю
+     * @param email - почта
+     * @param password - пароль
+     * @return - возвращает Optional с пользователем или null
+     */
+    @Override
+    public Optional<User> findUser(String email, String password) {
+        return userRepository.findUser(email, password);
+    }
 }

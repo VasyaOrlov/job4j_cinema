@@ -10,15 +10,16 @@ public class Ticket {
     private int row;
     private int cell;
     private int sessionId;
-
+    private int userId;
     public Ticket() {
     }
 
-    public Ticket(int id, int row, int cell, int sessionId) {
+    public Ticket(int id, int row, int cell, int sessionId, int userId) {
         this.id = id;
         this.row = row;
         this.cell = cell;
         this.sessionId = sessionId;
+        this.userId = userId;
     }
 
     public int getId() {
@@ -51,6 +52,14 @@ public class Ticket {
 
     public void setSessionId(int sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Override
