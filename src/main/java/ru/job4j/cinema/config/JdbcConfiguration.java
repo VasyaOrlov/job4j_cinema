@@ -4,11 +4,9 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.job4j.cinema.Main;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -44,8 +42,8 @@ public class JdbcConfiguration {
     private Properties loadProperties() {
         Properties properties = new Properties();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                Objects.requireNonNull(Main.class.getClassLoader().getResourceAsStream("db.properties"))
-        ))) {
+                Main.class.getClassLoader().getResourceAsStream("db.properties"))
+        )) {
             properties.load(br);
         } catch (IOException e) {
             throw new IllegalArgumentException(e);

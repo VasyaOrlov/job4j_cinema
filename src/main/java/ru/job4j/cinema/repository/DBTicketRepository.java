@@ -20,7 +20,7 @@ import java.util.Optional;
 @ThreadSafe
 public class DBTicketRepository implements TicketRepository {
 
-    private static final String ADD = "insert into ticket (session_id, row, "
+    private static final String ADD = "insert into tickets (session_id, row_ses, "
             + "cell, user_id) values (?, ?, ?, ?)";
     private static final Logger LOG = LoggerFactory.getLogger(DBTicketRepository.class.getName());
     private final BasicDataSource pool;

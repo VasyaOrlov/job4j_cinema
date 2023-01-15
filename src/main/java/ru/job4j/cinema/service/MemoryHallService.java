@@ -22,7 +22,7 @@ public class MemoryHallService implements HallService {
     }
 
     /**
-     * @return - восвращает список фильмов
+     * @return - возвращает список залов
      */
     @Override
     public List<Hall> findAll() {
@@ -36,5 +36,15 @@ public class MemoryHallService implements HallService {
     @Override
     public Optional<Hall> findById(int id) {
         return hallRepository.findById(id);
+    }
+
+    /**
+     * Метод добавляет hall в хранилище залов
+     * @param hall - холл
+     * @return - Optional с hall или с null
+     */
+    @Override
+    public Optional<Hall> add(Hall hall) {
+        return hallRepository.add(hall);
     }
 }

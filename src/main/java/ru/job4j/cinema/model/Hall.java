@@ -2,6 +2,7 @@ package ru.job4j.cinema.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Hall - описывает модель зала
@@ -56,5 +57,22 @@ public class Hall {
 
     public List<Integer> getCells() {
         return cells;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Hall hall = (Hall) o;
+        return id == hall.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

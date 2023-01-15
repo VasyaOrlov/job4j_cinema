@@ -12,4 +12,5 @@ public interface HallService {
     List<Hall> findAll();
 
     Optional<Hall> findById(int id);
+    Optional<Hall> add(Hall hall);
 }

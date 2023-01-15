@@ -1,5 +1,7 @@
 package ru.job4j.cinema.model;
 
+import java.util.Objects;
+
 /**
  * Session - описывает модель фильма
  */
@@ -39,5 +41,22 @@ public class Session {
 
     public void setHallId(int hallId) {
         this.hallId = hallId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Session session = (Session) o;
+        return id == session.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

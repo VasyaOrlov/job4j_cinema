@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface HallRepository {
     List<Hall> findAll();
     Optional<Hall> findById(int id);
+    Optional<Hall> add(Hall hall);
 }
