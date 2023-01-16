@@ -28,12 +28,11 @@ public class TicketController {
 
     /**
      * метод сохраняет билет в базу данных и сообщает о результате операции
-     * @param model - модель данных
      * @param httpSession - объект связанный с работой пользователя
      * @return - возвращает вид с результатом операции
      */
     @GetMapping("/createdTicket")
-    public String createdTicket(Model model, HttpSession httpSession) {
+    public String createdTicket(HttpSession httpSession) {
         int row = (int) httpSession.getAttribute("row");
         int cell = (int) httpSession.getAttribute("cell");
         int idSession = ((Session) httpSession.getAttribute("movie")).getId();

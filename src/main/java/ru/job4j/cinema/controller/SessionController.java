@@ -104,7 +104,6 @@ public class SessionController {
     public String addSession(Model model, HttpSession httpSession) {
         getUser(model, httpSession);
         model.addAttribute("halls", hallService.findAll());
-        System.out.println(hallService.findAll());
         return "addSession";
     }
 
