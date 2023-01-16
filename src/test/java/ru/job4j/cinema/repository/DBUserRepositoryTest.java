@@ -3,6 +3,7 @@ package ru.job4j.cinema.repository;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import ru.job4j.cinema.config.H2Configuration;
 import ru.job4j.cinema.config.JdbcConfiguration;
 import ru.job4j.cinema.model.User;
 
@@ -17,7 +18,7 @@ class DBUserRepositoryTest {
 
     @AfterEach
     public void wipeTable() throws SQLException {
-        BasicDataSource pool = new JdbcConfiguration().loadPool();
+        BasicDataSource pool = new H2Configuration().loadPool();
         try (Connection connection = pool.getConnection();
              PreparedStatement statement = connection.prepareStatement("delete from users")) {
             statement.execute();
@@ -29,7 +30,7 @@ class DBUserRepositoryTest {
      */
     @Test
     public void whenAddTest() {
-        DBUserRepository repository = new DBUserRepository(new JdbcConfiguration().loadPool());
+        DBUserRepository repository = new DBUserRepository(new H2Configuration().loadPool());
         User user = new User(1, "email1", "pass1", "name1");
         Optional<User> rsl = repository.add(user);
         assertThat(user).isEqualTo(rsl.get());
@@ -40,7 +41,7 @@ class DBUserRepositoryTest {
      */
     @Test
     public void whenFindByEmailAndPasswordTest() {
-        DBUserRepository repository = new DBUserRepository(new JdbcConfiguration().loadPool());
+        DBUserRepository repository = new DBUserRepository(new H2Configuration().loadPool());
         User user = new User(1, "email1", "pass1", "name1");
         repository.add(user);
         assertThat(user).isEqualTo(repository.findUser("email1", "pass1").get());

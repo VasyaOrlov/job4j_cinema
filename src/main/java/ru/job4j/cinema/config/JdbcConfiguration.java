@@ -3,10 +3,8 @@ package ru.job4j.cinema.config;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.job4j.cinema.Main;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
+import java.io.*;
 import java.util.Properties;
 
 /**
@@ -41,10 +39,8 @@ public class JdbcConfiguration {
      */
     private Properties loadProperties() {
         Properties properties = new Properties();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                Main.class.getClassLoader().getResourceAsStream("db.properties"))
-        )) {
-            properties.load(br);
+        try (InputStream in = new FileInputStream("db/db.properties")) {
+            properties.load(in);
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }

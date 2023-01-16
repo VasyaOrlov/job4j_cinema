@@ -4,7 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.job4j.cinema.config.JdbcConfiguration;
+import ru.job4j.cinema.config.H2Configuration;
 import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.model.User;
@@ -22,14 +22,14 @@ class DBTicketRepositoryTest {
 
     @BeforeEach
     void init() {
-        pool = new JdbcConfiguration().loadPool();
+        pool = new H2Configuration().loadPool();
         sessionRepository = new DBSessionRepository(pool);
         userRepository = new DBUserRepository(pool);
     }
 
     @AfterEach
     public void wipeTable() throws SQLException {
-        BasicDataSource pool = new JdbcConfiguration().loadPool();
+        BasicDataSource pool = new H2Configuration().loadPool();
         try (Connection connection = pool.getConnection();
              PreparedStatement statement1 = connection.prepareStatement("delete from tickets");
              PreparedStatement statement2 = connection.prepareStatement("delete from users");
