@@ -18,10 +18,14 @@ class DBSessionRepositoryTest {
 
     @AfterEach
     public void wipeTable() throws SQLException {
-        BasicDataSource pool = new JdbcConfiguration().loadPool();
+        BasicDataSource pool = new H2Configuration().loadPool();
         try (Connection connection = pool.getConnection();
-             PreparedStatement statement = connection.prepareStatement("delete from sessions")) {
-            statement.execute();
+             PreparedStatement statement1 = connection.prepareStatement("delete from tickets");
+             PreparedStatement statement2 = connection.prepareStatement("delete from sessions");
+             PreparedStatement statement3 = connection.prepareStatement("delete from users")) {
+            statement1.execute();
+            statement2.execute();
+            statement3.execute();
         }
     }
 
@@ -53,8 +57,8 @@ class DBSessionRepositoryTest {
     public void whenFindAllTest() {
         DBSessionRepository repository = new DBSessionRepository(new H2Configuration().loadPool());
         Session session1 = new Session(1, "session1", 1);
-        Session session2 = new Session(1, "session2", 1);
-        Session session3 = new Session(1, "session3", 1);
+        Session session2 = new Session(2, "session2", 1);
+        Session session3 = new Session(3, "session3", 1);
         Optional<Session> rsl1 = repository.add(session1);
         Optional<Session> rsl2 = repository.add(session2);
         Optional<Session> rsl3 = repository.add(session3);
